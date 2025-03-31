@@ -43,4 +43,4 @@ static_resources:
             address:
               socket_address:
                 address: python-app
-                port_value: 5000
+                port_value: 5001
