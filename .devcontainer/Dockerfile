@@ -14,7 +14,7 @@ RUN pip install --upgrade pip setuptools wheel
 WORKDIR /workspace
 
 # Install common dev tools
-RUN pip install pylint black flake8
+RUN pip install pylint flake8
 
 # Set up a non-root user for the container
 ARG USERNAME=devcontainer

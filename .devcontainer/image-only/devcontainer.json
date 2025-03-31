@@ -1,0 +1,11 @@
+{
+    "name": "Basic Image Example",
+    "image": "mcr.microsoft.com/devcontainers/go:1.24",
+    "customizations": {
+        "vscode": {
+            "settings": {
+                "terminal.integrated.defaultProfile.linux": "bash"
+            }
+        }
+    }
+}

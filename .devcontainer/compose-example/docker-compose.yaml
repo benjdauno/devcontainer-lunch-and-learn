@@ -1,0 +1,58 @@
+services:
+  python-app:
+    build: ../../app
+    volumes:
+      - ../../app:/app
+      - ../..:/workspaces:cached
+    depends_on:
+      - proxysql
+    environment:
+      - DB_HOST=proxysql
+      - DB_PORT=6033
+      - DB_USER=myuser
+      - DB_PASSWORD=mypassword
+    networks:
+      - backend
+
+  mysql:
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: mydb
+      MYSQL_USER: myuser
+      MYSQL_PASSWORD: mypassword
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - backend
+
+  proxysql:
+    image: proxysql/proxysql
+    restart: always
+    ports:
+      - "6033:6033"
+    volumes:
+      - ../../proxysql.cnf:/etc/proxysql.cnf:ro
+    depends_on:
+      - mysql
+    networks:
+      - backend
+
+  envoy:
+    image: envoyproxy/envoy:v1.30-latest
+    depends_on:
+      - python-app
+    ports:
+      - "8080:8080"
+    volumes:
+      - ../../envoy.yaml:/etc/envoy/envoy.yaml:ro
+    command: ["envoy", "-c", "/etc/envoy/envoy.yaml", "--service-node", "dev", "--service-cluster", "devcluster"]
+    networks:
+      - backend
+
+volumes:
+  mysql-data:
+
+networks:
+  backend:
