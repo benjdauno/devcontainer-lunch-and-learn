@@ -13,4 +13,4 @@ RUN apt-get update && apt-get install -y \
 RUN pip install pymysql flask
 
 # Command to keep the container running
-CMD ["python", "app.py"]
+CMD ["flask", "--app", "app", "run"]

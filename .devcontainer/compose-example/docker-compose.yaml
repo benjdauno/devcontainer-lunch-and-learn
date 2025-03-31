@@ -11,8 +11,10 @@ services:
       - DB_PORT=6033
       - DB_USER=myuser
       - DB_PASSWORD=mypassword
+      - FLASK_PORT=5001
     networks:
       - backend
+
 
   mysql:
     image: mysql:8.0
